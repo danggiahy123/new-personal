@@ -1,0 +1,30 @@
+{
+  "name": "fullstack-mobile-app",
+  "version": "1.0.0",
+  "description": "Full-stack mobile application with Node.js backend, React Native mobile app, and React.js web admin",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run backend:dev\" \"npm run webadmin:dev\"",
+    "backend:dev": "cd backend && npm run dev",
+    "webadmin:dev": "cd webadmin && npm run dev",
+    "mobile:dev": "cd mobile && npm start",
+    "install:all": "npm install && cd backend && npm install && cd ../webadmin && npm install && cd ../mobile && npm install",
+    "build": "npm run backend:build && npm run webadmin:build",
+    "backend:build": "cd backend && npm run build",
+    "webadmin:build": "cd webadmin && npm run build"
+  },
+  "keywords": [
+    "nodejs",
+    "mongodb",
+    "react-native",
+    "expo",
+    "react",
+    "tailwindcss",
+    "fullstack"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
