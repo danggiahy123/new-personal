@@ -1,25 +1,17 @@
 const express = require('express');
 const esxiService = require('../services/esxiService');
-const VMActionLog = require('../models/VMActionLog');
-const { protect } = require('../middleware/auth');
+// const VMActionLog = require('../models/VMActionLog'); // Commented out for MongoDB-free operation
+const { protect } = require('../middleware/auth-simple');
 
 const router = express.Router();
 
-// Helper function to log VM actions
+// Helper function to log VM actions (simplified without MongoDB)
 const logVMAction = async (user, action, vmId, vmName, success, errorMessage, req) => {
   try {
-    await VMActionLog.create({
-      user: user._id,
-      username: user.username,
-      action,
-      vmId,
-      vmName,
-      esxiHost: process.env.ESXI_HOST || 'https://192.168.159.128',
-      success,
-      errorMessage,
-      ipAddress: req.ip || req.connection.remoteAddress,
-      userAgent: req.get('User-Agent')
-    });
+    console.log(`VM Action: ${action} on ${vmName} (${vmId}) by ${user.username} - ${success ? 'SUCCESS' : 'FAILED'}`);
+    if (errorMessage) {
+      console.log(`Error: ${errorMessage}`);
+    }
   } catch (error) {
     console.error('Failed to log VM action:', error);
   }

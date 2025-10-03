@@ -1,6 +1,6 @@
 const express = require('express');
 const esxiService = require('../services/esxiService');
-const { protect } = require('../middleware/auth');
+const { protect } = require('../middleware/auth-simple');
 
 const router = express.Router();
 

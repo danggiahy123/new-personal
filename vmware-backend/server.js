@@ -40,24 +40,28 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-// Database connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/vmware-management', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => {
-  console.log('✅ Connected to MongoDB');
-})
-.catch((error) => {
-  console.error('❌ MongoDB connection error:', error);
-  process.exit(1);
-});
+// Database connection (optional)
+if (process.env.MONGODB_URI) {
+  mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log('✅ Connected to MongoDB');
+  })
+  .catch((error) => {
+    console.error('❌ MongoDB connection error:', error);
+    console.log('⚠️  Continuing without MongoDB...');
+  });
+} else {
+  console.log('⚠️  MongoDB not configured, running without database');
+}
 
 // Routes
-app.use('/api/auth', require('./routes/auth'));
+app.use('/api/auth', require('./routes/auth-simple'));
 app.use('/api/vms', require('./routes/vms'));
 app.use('/api/host', require('./routes/host'));
-app.use('/api/admin', require('./routes/admin'));
+// app.use('/api/admin', require('./routes/admin')); // Commented out for MongoDB-free operation
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

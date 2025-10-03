@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = 'http://localhost:5002/api';
 
 // Create axios instance
 const api = axios.create({
@@ -39,7 +39,7 @@ export const authService = {
   // Login user with ESXi credentials
   async login(username, password, esxiUsername, esxiPassword) {
     try {
-      const response = await api.post('/login', {
+      const response = await api.post('/auth/login', {
         username,
         password,
         esxiUsername,
